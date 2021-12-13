@@ -1,0 +1,49 @@
+0: 6 long
+1: 2 long
+2: 5 long
+3: 5 long
+4: 4 long
+5: 5 long
+6: 6 long
+7: 3 long
+8: 7 long
+9: 6 long
+
+Länge:
+2 --> ist die 1
+3 --> ist die 7
+4 --> ist die 4
+5 --> 2,3,5
+6 --> 0,6,9
+7 --> ist die 8
+
+1,4,7,8 easy
+es gibt einen Buchstaben, der bei allen 5ern vorkommt, aber bei genau einem 6er nicht.
+--> das ist dann die 0
+--> dieser Buchstabe ist der mittlere horizontale strich
+2 und 5 (die 5er) haben zwei unterschiedliche buchstaben, aber 2 und 3 bzw. 3 und 5 nur einen unterschiedlich
+--> so findet man die 3
+--> dann weiß man auch, was ganz unten die horizontale reihe ist (nämlich alle buchstaben der 3 minus den horizontalen strich,
+minus alle buchstaben der 7)
+nehme alle buchstaben der 0, lösche alle der 1 und füge den horizontalen balken hinzu
+--> nur eine der beiden restlichen 6ern enthält alle diese buchstaben, das ist dann die 6
+--> die andere die 9
+--> nimm alle buchstaben der 9, subtrahiere alle der 3, wenn noch was übrig ist, ist das die 2, sonst die 5
+--> die letzte zahl ist der remainder
+
+2 und 3 sind fast gleich
+3 und 5 sind fast gleich
+6 ist dasselbe wie 5 nur ein Buchstabe mehr
+
+2	7	6	6	4	5	6	5	5	3
+1	8			4					7
+be	8	cbdefg	aecdfg	bceg	cdefg	abdefg	bcdef	abcdf	edb
+						0 (c)	3 (f)
+1	8	
+
+
+adcfg
+
+
+
+--> 8, 4, 7, 3, 1, 0

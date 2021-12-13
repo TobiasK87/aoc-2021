@@ -132,7 +132,95 @@ pd.Series([a for a in sum(A.values.tolist(), []) if a>=2]).value_counts()
 
 
 #############################################################################################
-# Playing
+# New try Problem 2
+#############################################################################################
+
+df = pd.read_csv(r"C:\Users\Tobi\Programmieren\Python Scripts\AdventOfCode\2021\Day5_Input.csv", dtype=str, index_col=None)
+
+df['A0'] = df.index
+df['A0'] = df.A0.apply(str).str.strip("()").str.replace('\'','')
+
+df[['A1', 'A2']] = df.A0.str.split(', ', expand=True)
+df[['A2', 'A3']] = df.A2.str.split(' -> ', expand=True)
+df = pd.DataFrame({'A1': df.A1, 'A2':df.A2, 'A3':df.A3, 'A4':df.A})
+
+df.A1 = df.A1.apply(int)
+df.A2 = df.A2.apply(int)
+df.A3 = df.A3.apply(int)
+df.A4 = df.A4.apply(int)
+df = df[(df.A1==df.A3) | (df.A2==df.A4) | (abs(df.A1-df.A3)==abs(df.A2-df.A4))]
+# df = pd.DataFrame({'A1':[0,8,9,2,7,6,0,3,0,5],'A2':[9,0,4,2,0,4,9,4,0,5],'A3':[5,0,3,2,7,2,2,1,8,8],'A4':[9,8,4,1,4,0,9,4,8,2]})
+A = pd.DataFrame(0, index=range(1000), columns=range(1000))
+
+for i in range(df.shape[0]):
+    if df.A1[i]==df.A3[i]:
+        if df.A2[i]>=df.A4[i]:
+            a = df.A4[i]
+            b = df.A2[i]
+        else:
+            a = df.A2[i]
+            b = df.A4[i]
+        A.iloc[a:b+1,df.A1[i]] = [a+1 for a in A.iloc[a:b+1,df.A1[i]]]
+    if df.A2[i]==df.A4[i]:
+        if df.A1[i]>=df.A3[i]:
+            a = df.A3[i]
+            b = df.A1[i]
+        else:
+            a = df.A1[i]
+            b = df.A3[i]
+        A.iloc[df.A2[i],a:b+1] = [a+1 for a in A.iloc[df.A2[i],a:b+1]]
+    if abs(df.A1[i]-df.A3[i])==abs(df.A2[i]-df.A4[i]):
+        if (df.A1[i] <= df.A3[i]) and (df.A2[i] <= df.A4[i]):
+            left = df.A1[i]
+            right = df.A3[i]
+            top = df.A2[i]
+            bottom = df.A4[i]
+            diag = np.zeros((right-left+1,right-left+1), int)
+            np.fill_diagonal(diag, 1)
+            A.iloc[left:right+1, top:bottom+1] += diag
+        if (df.A1[i] <= df.A3[i]) and (df.A2[i] >= df.A4[i]):
+            left = df.A1[i]
+            right = df.A3[i]
+            top = df.A4[i]
+            bottom = df.A2[i]
+            diag = np.zeros((right-left+1,right-left+1), int)
+            np.fill_diagonal(diag, 1)
+            diag = diag[:,::-1]
+            A.iloc[left:right-1, top:bottom-1] += diag
+        if (df.A1[i] >= df.A3[i]) and (df.A2[i] <= df.A4[i]):
+            left = df.A3[i]
+            right = df.A1[i]
+            top = df.A2[i]
+            bottom = df.A4[i]
+            diag = np.zeros((right-left+1,right-left+1), int)
+            np.fill_diagonal(diag, 1)
+            diag = diag[:,::-1]
+            A.iloc[left:right-1, top:bottom-1] += diag
+        if (df.A1[i] >= df.A3[i]) and (df.A2[i] >= df.A4[i]):
+            left = df.A3[i]
+            right = df.A1[i]
+            top = df.A4[i]
+            bottom = df.A2[i]
+            diag = np.zeros((right-left+1,right-left+1), int)
+            np.fill_diagonal(diag, 1)
+            A.iloc[left:right+1, top:bottom+1] += diag
+
+
+len([a for a in sum(A.values.tolist(), []) if a>=2]) # 18618 is also wrong
+
+df = pd.DataFrame(np.matrix(range(1,26)).reshape(5,5))
+df.iloc[1:4,1:4] += diag
+df
+        
+diag = np.zeros((3,3), int)
+np.fill_diagonal(diag, 1)
+df = pd.DataFrame(diag)
+df.loc[:,::-1] # <-- could be useful
+
+
+#############################################################################################
+# Exploring
+#############################################################################################
 
 
 B = pd.DataFrame({0:[2,3],1:[5345,123]})

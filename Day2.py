@@ -37,6 +37,8 @@ df.loc[df.direction=='forward','y'] = df.loc[df.direction=='forward','num'] * df
 df['y'] = df['y'].cumsum()
 print(df.iloc[-1,-2]*df.iloc[-1,-1]) # 1544000595
 
-### playing
+#############################################################################################
+# Exploring
+#############################################################################################
 
 df['x'] = df.groupby('direction')['num'].cumsum()
